@@ -145,15 +145,16 @@ public class MainActivity
 
     @Override
     public void onMessageStartAddingViewReceived() {
-        mSharedMessageRunnable.sendMessage(
-                GAME_VIEW_WAS_ADDED_VALUE
-        );
+        //Model heavy calculation
         try {
             Thread.sleep(3000);
         } catch (InterruptedException e) {
             e.printStackTrace();
             //handle Looper Message Exception
         }
+        mSharedMessageRunnable.sendMessage(
+                GAME_VIEW_WAS_ADDED_VALUE
+        );
     }
 
     @Override

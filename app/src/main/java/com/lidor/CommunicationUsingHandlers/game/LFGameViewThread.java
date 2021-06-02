@@ -21,8 +21,8 @@ public class LFGameViewThread extends Thread {
     //can be singleton too
     public Handler mHandler;
 
-    private WeakReference<LFGameViewHandlerContract.OnMessageAddingViewReceivedDelegate> mOnAddMineMessageDelegate;
-    private WeakReference<LFGameViewHandlerContract.OnMessageViewWasAddedDelegate> mOnMineAddedDelegate;
+    private WeakReference<LFGameViewHandlerContract.OnMessageAddingViewReceivedDelegate> mOnAddViewMessageDelegate;
+    private WeakReference<LFGameViewHandlerContract.OnMessageViewWasAddedDelegate> mOnViewAddedDelegate;
     private WeakReference<LFGameViewHandlerContract.OnMessageRefreshGameViewGridDelegate> mOnRefreshGridDelegate;
     private WeakReference<LFGameViewHandlerContract.OnMessageFinishRefreshGameViewGridDelegate> mOnFinishRefreshGridDelegate;
     private boolean canAddGameView = true;
@@ -42,8 +42,8 @@ public class LFGameViewThread extends Thread {
                     if (canAddGameView) {
                         switch (messageTypeALike) {
                             case ADD_GAME_VIEW_VALUE:
-                                if (mOnAddMineMessageDelegate != null) {
-                                    final LFGameViewHandlerContract.OnMessageAddingViewReceivedDelegate delegateAddMine = mOnAddMineMessageDelegate.get();
+                                if (mOnAddViewMessageDelegate != null) {
+                                    final LFGameViewHandlerContract.OnMessageAddingViewReceivedDelegate delegateAddMine = mOnAddViewMessageDelegate.get();
                                     if
                                     (delegateAddMine != null) {
                                         delegateAddMine.onMessageStartAddingViewReceived();
@@ -51,8 +51,8 @@ public class LFGameViewThread extends Thread {
                                 }
                                 break;
                             case GAME_VIEW_WAS_ADDED_VALUE:
-                                if (mOnMineAddedDelegate != null) {
-                                    final LFGameViewHandlerContract.OnMessageViewWasAddedDelegate delegateOnMineWasAdded = mOnMineAddedDelegate.get();
+                                if (mOnViewAddedDelegate != null) {
+                                    final LFGameViewHandlerContract.OnMessageViewWasAddedDelegate delegateOnMineWasAdded = mOnViewAddedDelegate.get();
                                     if
                                     (delegateOnMineWasAdded != null) {
                                         delegateOnMineWasAdded.onMessageViewWasAddedReceived();
@@ -97,11 +97,11 @@ public class LFGameViewThread extends Thread {
     }
 
     public void setOnAddMineMessageDelegate(LFGameViewHandlerContract.OnMessageAddingViewReceivedDelegate delegate) {
-        this.mOnAddMineMessageDelegate = new WeakReference<>(delegate);
+        this.mOnAddViewMessageDelegate = new WeakReference<>(delegate);
     }
 
     public void setOnMineAddedDelegate(LFGameViewHandlerContract.OnMessageViewWasAddedDelegate delegate) {
-        this.mOnMineAddedDelegate = new WeakReference<>(delegate);
+        this.mOnViewAddedDelegate = new WeakReference<>(delegate);
     }
 
     public void setOnRefreshGridDelegate(LFGameViewHandlerContract.OnMessageRefreshGameViewGridDelegate delegate) {
