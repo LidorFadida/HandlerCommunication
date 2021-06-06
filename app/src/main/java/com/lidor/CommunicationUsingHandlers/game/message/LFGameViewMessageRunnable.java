@@ -1,4 +1,4 @@
-package com.lidor.CommunicationUsingHandlers.game;
+package com.lidor.CommunicationUsingHandlers.game.message;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,27 +7,29 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.lidor.CommunicationUsingHandlers.game.LFGameViewThread;
+
 import java.lang.ref.WeakReference;
 
-import static com.lidor.CommunicationUsingHandlers.game.LFGameViewHandlerContract.MSG_KEY;
+import static com.lidor.CommunicationUsingHandlers.game.contracts.LFGameViewHandlerContract.MSG_KEY;
 
 
-public class LFGameViewMessageRunnable implements Runnable {
+public class LFGameViewMessageRunnable
+        implements Runnable {
     private static final String TAG = LFGameViewMessageRunnable.class.getSimpleName();
 
 
-    private static final Object HANDLER_LOCK = new Object();
+    private static final Object mLock = new Object();
     private String mMessage;
     private WeakReference<LFGameViewThread> mHostThread;
     private Thread mThread; //better to hold ref instead of local. can be customized one
     private static LFGameViewMessageRunnable mInstance;
 
-    private LFGameViewMessageRunnable() {
-    }
+    private LFGameViewMessageRunnable() { }
 
     public static LFGameViewMessageRunnable getInstance() {
         if (mInstance == null) {
-            synchronized (HANDLER_LOCK) {
+            synchronized (mLock) {
                 if (mInstance == null) {
                     mInstance = new LFGameViewMessageRunnable();
                 }
@@ -64,7 +66,7 @@ public class LFGameViewMessageRunnable implements Runnable {
             (mHostThread != null) {
                 final LFGameViewThread LFGameViewThread = mHostThread.get();
                 if (LFGameViewThread != null) {
-                    final Handler mMineHandler = LFGameViewThread.mHandler;
+                    final Handler mMineHandler = LFGameViewThread.getHandler();
                     Message message = mMineHandler.obtainMessage();
                     Bundle bundle = new Bundle();
                     bundle.putString(MSG_KEY, mMessage);

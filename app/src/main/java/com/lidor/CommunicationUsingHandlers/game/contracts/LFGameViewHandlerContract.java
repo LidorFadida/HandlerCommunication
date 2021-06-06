@@ -1,4 +1,4 @@
-package com.lidor.CommunicationUsingHandlers.game;
+package com.lidor.CommunicationUsingHandlers.game.contracts;
 
 public interface LFGameViewHandlerContract {
     String MSG_KEY = "MessageHandlerKey";
